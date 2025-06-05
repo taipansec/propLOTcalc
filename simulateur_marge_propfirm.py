@@ -47,9 +47,9 @@ with st.form("form"):
         is_ftmo_safe = margin_ratio_used <= 0.3
 
         if is_ftmo_safe:
-            st.warning(f"⚠️ Tu peux ouvrir jusqu’à {max_lots:.2f} lots, mais cela utilise {margin_ratio_used*100:.2f}% de ton capital en marge. FTMO peut bloquer au-delà de 30 %.")
-        else:
             st.success(f"✅ Tu peux ouvrir jusqu’à {max_lots:.2f} lots. Marge utilisée : {margin_ratio_used*100:.2f} % – FTMO OK.")
+        else:
+            st.warning(f"⚠️ Tu peux ouvrir jusqu’à {max_lots:.2f} lots, mais cela utilise {margin_ratio_used*100:.2f}% de ton capital en marge. FTMO peut bloquer au-delà de 30 %.")            
         st.markdown("### Résultat pour une utilsation FTMO :")
         st.markdown(f"- Marge max autorisée : {max_margin_available:.2f} USD")
         st.markdown(f"- Valeur max de la position : {max_position_value:.2f} USD")
