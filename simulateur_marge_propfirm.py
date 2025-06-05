@@ -28,7 +28,7 @@ with st.form("form"):
     leverage = st.number_input("🧮 Levier autorisé (ex: 30 pour 1:30)", value=30)
     sl_pips = st.number_input("🎯 Stop-Loss (en pips)", value=250.0)
     risk_percent = st.number_input("⚠️ Risque % du capital", value=1.0)
-    safe_margin_ratio = st.slider("🔐 % max de capital utilisé en marge", min_value=0.1, max_value=0.9, value=0.3, step=0.01)
+    safe_margin_ratio = st.slider("🔐 % max de capital utilisé en marge", min_value=0.01, max_value=0.9, value=0.76, step=0.01)
 
     submitted = st.form_submit_button("Calculer")
 
