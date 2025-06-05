@@ -60,10 +60,10 @@ with st.form("form"):
         tag = "🟢 Zone FTMO OK" if is_ftmo_safe else "🔴 Zone FTMO à risque"
 
         if is_ftmo_safe:
-            st.error("⚠️ Zone de blocage FTMO probable : marge utilisée dépasse 30 % du capital.")
+            st.info("🟢 Zone de sécurité FTMO : marge utilisée raisonnable.")
             st.markdown(f"**{tag}**")
         else:
-            st.info("🟢 Zone de sécurité FTMO : marge utilisée raisonnable.")
+            st.error("⚠️ Zone de blocage FTMO probable : marge utilisée dépasse 30 % du capital.")
             st.markdown(f"**{tag}**")
 
         # Bloc 2 : Calculette type Myfxbook
