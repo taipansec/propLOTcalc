@@ -47,7 +47,7 @@ with st.form("form"):
         max_position_value = max_margin_available * leverage
         max_lots_ftmo = max_position_value / (price * contract_size)
 
-        st.markdown("### 🧠 Résultat combiné :")
+        st.markdown("### 🧠 Résultat combiné nouvelle version en test :")
         st.write(f"📌 **Lot calculé selon le risque** : `{lot_size_risk:.2f} lots`")
         st.write(f"🧮 **Marge requise** : `{margin_required:.2f} USD` (**{margin_ratio_used*100:.2f}% du capital**)")
         st.write(f"🛡️ **Lot FTMO maximum autorisé (marge safe)** : `{max_lots_ftmo:.2f} lots`")
@@ -56,13 +56,10 @@ with st.form("form"):
         risk_percent_real = (estimated_risk / capital) * 100
         st.markdown(f"📉 **Si tu trades `{lot_size_risk:.2f}` lots avec un SL de `{sl_pips:.0f}` pips, tu risques environ `{estimated_risk:.0f} USD` (**{risk_percent_real:.2f}% du capital**).")
 
-        # 🔰 1. Message FTMO : Respect strict de la limite FTMO à 30%
-        if margin_ratio_used > 0.3:
-            st.error("⚠️ Zone de blocage FTMO probable : marge utilisée dépasse 30 % du capital autorisé par FTMO.")
-        else:
-            st.info("🟢 Zone de sécurité FTMO : marge utilisée raisonnable.")
+        # Affiche le debug (temporaire pour confirmer la logique)
+        st.markdown(f"🧪 Marge utilisée : {margin_required:.2f} USD")
+        st.markdown(f"🧪 Marge autorisée : {max_margin_available:.2f} USD")
 
-        # 🔐 2. Message personnalisé selon ta marge autorisée (slider)
         if margin_required > max_margin_available:
             st.error("🚫 Le lot calculé dépasse la marge FTMO que tu t’es fixée. Ajuste ton risque, ton SL ou fractionne le trade.")
         else:
