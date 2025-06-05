@@ -24,8 +24,7 @@ with st.form("form"):
 
     capital = st.number_input("💰 **Capital total (USD)**", value=200000.0)
 
-    st.markdown("📈 **Prix actuel de l’actif**")
-    price = st.number_input("", value=3370.0)
+    price = st.number_input("📈 **Prix actuel de l’actif**", value=3370.0)
 
     st.markdown("📦 **Taille d’un contrat standard**")
     contract_size = st.number_input("", value=100)
