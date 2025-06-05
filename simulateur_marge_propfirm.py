@@ -60,7 +60,14 @@ with st.form("form"):
         st.markdown(f"🧪 Marge utilisée : {margin_required:.2f} USD")
         st.markdown(f"🧪 Marge autorisée : {max_margin_available:.2f} USD")
 
-        if margin_required > max_margin_available:
-            st.error("🚫 Le lot calculé dépasse la marge FTMO que tu t’es fixée. Ajuste ton risque, ton SL ou fractionne le trade.")
+        # 1. Affichage clair du contrôle FTMO
+        if margin_ratio_used > 0.3:
+            st.error("⚠️ Zone de blocage FTMO probable : marge utilisée dépasse 30 % du capital autorisé par FTMO.")
         else:
-            st.success("✅ Ce lot respecte la marge FTMO autorisée. Tu peux le trader sans blocage.")
+            st.info("🟢 Zone de sécurité FTMO : marge utilisée raisonnable.")
+
+        # 2. Affichage clair du contrôle personnalisé (slider rouge)
+        if margin_required > max_margin_available:
+            st.error("🚫 Le lot calculé dépasse la marge que tu t’es toi-même fixée avec le slider rouge. Ajuste ton risque, ton SL ou fractionne le trade.")
+        else:
+            st.success("✅ Ce lot respecte la marge FTMO autorisée selon la limite que tu as fixée. Tu peux le trader sans blocage.")
