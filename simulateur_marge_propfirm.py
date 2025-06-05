@@ -54,9 +54,16 @@ with st.form("form"):
 
         estimated_risk = lot_size_risk * sl_pips * pip_value
         risk_percent_real = (estimated_risk / capital) * 100
-        st.markdown(f"📉 **Si tu trades `{max_lots_ftmo:.2f}` lots avec un SL de `{sl_pips:.0f}` pips, tu risques environ `{estimated_risk:.0f} USD` (**{risk_percent_real:.2f}% du capital**).")
+        st.markdown(f"📉 **Si tu trades `{lot_size_risk:.2f}` lots avec un SL de `{sl_pips:.0f}` pips, tu risques environ `{estimated_risk:.0f} USD` (**{risk_percent_real:.2f}% du capital**).")
 
+        # 🔰 1. Message FTMO : Respect strict de la limite FTMO à 30%
+        if margin_ratio_used > 0.3:
+            st.error("⚠️ Zone de blocage FTMO probable : marge utilisée dépasse 30 % du capital autorisé par FTMO.")
+        else:
+            st.info("🟢 Zone de sécurité FTMO : marge utilisée raisonnable.")
+
+        # 🔐 2. Message personnalisé selon ta marge autorisée (slider)
         if margin_required > max_margin_available:
-            st.error("🚫 Le lot calculé dépasse la marge FTMO autorisée. Ajuste ton risque, ton SL ou fractionne le trade.")
+            st.error("🚫 Le lot calculé dépasse la marge FTMO que tu t’es fixée. Ajuste ton risque, ton SL ou fractionne le trade.")
         else:
             st.success("✅ Ce lot respecte la marge FTMO autorisée. Tu peux le trader sans blocage.")
