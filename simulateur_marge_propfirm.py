@@ -26,11 +26,9 @@ with st.form("form"):
 
     price = st.number_input("📈 **Prix actuel de l’actif**", value=3370.0)
 
-    st.markdown("📦 **Taille d’un contrat standard**")
-    contract_size = st.number_input("", value=100)
+    contract_size = st.number_input("📦 **Taille d’un contrat standard**", value=100)
 
-    st.markdown("🧮 **Levier autorisé (ex: 30 pour 1:30)**")
-    leverage = st.number_input("", value=30)
+    leverage = st.number_input("🧮 **Levier autorisé (ex: 30 pour 1:30)**", value=30)
 
     st.markdown("🎯 **Stop-Loss (en pips)**")
     sl_pips = st.number_input("", value=250.0)
