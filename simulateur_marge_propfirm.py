@@ -30,11 +30,9 @@ with st.form("form"):
 
     leverage = st.number_input("🧮 **Levier autorisé (ex: 30 pour 1:30)**", value=30)
 
-    st.markdown("🎯 **Stop-Loss (en pips)**")
-    sl_pips = st.number_input("", value=250.0)
+    sl_pips = st.number_input("🎯 **Stop-Loss (en pips)**", value=250.0)
 
-    st.markdown("⚠️ **Risque % du capital**")
-    risk_percent = st.number_input("", value=1.0)
+    risk_percent = st.number_input("⚠️ **Risque % du capital**", value=1.0)
 
     safe_margin_percent = st.slider("🔐 Marge maximale autorisée (% du capital)", min_value=10, max_value=90, value=25, step=1)
     safe_margin_ratio = safe_margin_percent / 100
