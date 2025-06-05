@@ -43,7 +43,10 @@ with st.form("form"):
         real_margin_used = real_position_value / leverage
         margin_ratio_used = real_margin_used / capital
 
-        st.success(f"✅ Tu peux ouvrir jusqu’à {max_lots:.2f} lots sans dépasser {safe_margin_ratio*100:.0f}% de ton capital en marge.")
+        if margin_ratio_used > 0.3:
+            st.warning(f"⚠️ Tu peux ouvrir jusqu’à {max_lots:.2f} lots, mais cela utilise {margin_ratio_used*100:.2f}% de ton capital en marge. FTMO peut bloquer au-delà de 30 %.")
+        else:
+            st.success(f"✅ Tu peux ouvrir jusqu’à {max_lots:.2f} lots. Marge utilisée : {margin_ratio_used*100:.2f} % – FTMO OK.")
         st.markdown("### Détail du calcul FTMO :")
         st.markdown(f"- Marge max autorisée : {max_margin_available:.2f} USD")
         st.markdown(f"- Valeur max de la position : {max_position_value:.2f} USD")
@@ -55,6 +58,9 @@ with st.form("form"):
             st.error("⚠️ Zone de blocage FTMO probable : marge utilisée dépasse 30 % du capital.")
         else:
             st.info("🟢 Zone de sécurité FTMO : marge utilisée raisonnable.")
+
+        tag = "🟢 Zone FTMO OK" if margin_ratio_used <= 0.3 else "🔴 Zone FTMO à risque"
+        st.markdown(f"**{tag}**")
 
         # Bloc 2 : Calculette type Myfxbook
         risk_amount = capital * (risk_percent / 100)
