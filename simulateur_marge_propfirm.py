@@ -76,4 +76,4 @@ if submitted:
     st.markdown(f"- 💰 Risque : `{risk_amount:.2f} USD`")
     st.markdown(f"- 🎯 SL : `{sl_pips}` pips")
     st.markdown(f"- 📄 Valeur du pip : `{pip_value}` USD par lot")
-    st.markdown(f"- ➕ => Taille de lot recommandée : `{lot_by_risk:.2f} lots`")
+    st.markdown(f"- ➕ Taille de lot recommandée par position : `{lot_by_risk:.2f} lots`")
