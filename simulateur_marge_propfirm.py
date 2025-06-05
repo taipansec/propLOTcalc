@@ -52,6 +52,10 @@ with st.form("form"):
         st.write(f"🧮 **Marge requise** : `{margin_required:.2f} USD` (**{margin_ratio_used*100:.2f}% du capital**)")
         st.write(f"🛡️ **Lot FTMO maximum autorisé (marge safe)** : `{max_lots_ftmo:.2f} lots`")
 
+        estimated_risk = lot_size_risk * sl_pips * pip_value
+        risk_percent_real = (estimated_risk / capital) * 100
+        st.markdown(f"📉 **Si tu trades `{max_lots_ftmo:.2f}` lots avec un SL de `{sl_pips:.0f}` pips, tu risques environ `{estimated_risk:.0f} USD` (**{risk_percent_real:.2f}% du capital**).")
+
         if lot_size_risk > max_lots_ftmo:
             st.error("⚠️ Le lot calculé dépasse la marge autorisée FTMO. Réduis ton risque, ton SL, ou fractionne le trade.")
         else:
