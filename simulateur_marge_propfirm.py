@@ -4,7 +4,7 @@ from PIL import Image
 st.set_page_config(page_title="m3X0Ru - Simulateur de Marge", page_icon="⚔️")
 
 st.title("⚔️ m3X0Ru - Simulateur de Marge Prop Firm")
-st.markdown("**Calcule ta taille de lot maximale selon le risque et vérifie la marge FTMO.**")
+st.markdown("**Évite les blocages 'Not enough money' sur FTMO et prop firms.** Calcule ta taille de lot maximale sans jamais dépasser une marge sécurisée.**")
 
 # Logo
 logo = Image.open("logo.png")
