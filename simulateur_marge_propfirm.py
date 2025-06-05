@@ -20,14 +20,29 @@ pip_values = {
 }
 
 with st.form("form"):
-    pair = st.selectbox("💱 Choisis ta paire", options=list(pip_values.keys()))
-    capital = st.number_input("💰 Capital total (USD)", value=200000.0)
-    price = st.number_input("📈 Prix actuel de l’actif", value=3370.0)
-    contract_size = st.number_input("📦 Taille d’un contrat standard", value=100)
-    leverage = st.number_input("🧮 Levier autorisé (ex: 30 pour 1:30)", value=30)
-    sl_pips = st.number_input("🎯 Stop-Loss (en pips)", value=250.0)
-    risk_percent = st.number_input("⚠️ Risque % du capital", value=1.0)
-    safe_margin_percent = st.slider("🔐 Marge maximale autorisée (% du capital)", min_value=10, max_value=90, value=25, step=1)
+    st.markdown("💱 **Choisis ta paire :**")
+    pair = st.selectbox("", options=list(pip_values.keys()))
+
+    st.markdown("💰 **Capital total (USD)**")
+    capital = st.number_input("", value=200000.0)
+
+    st.markdown("📈 **Prix actuel de l’actif**")
+    price = st.number_input("", value=3370.0)
+
+    st.markdown("📦 **Taille d’un contrat standard**")
+    contract_size = st.number_input("", value=100)
+
+    st.markdown("🧮 **Levier autorisé (ex: 30 pour 1:30)**")
+    leverage = st.number_input("", value=30)
+
+    st.markdown("🎯 **Stop-Loss (en pips)**")
+    sl_pips = st.number_input("", value=250.0)
+
+    st.markdown("⚠️ **Risque % du capital**")
+    risk_percent = st.number_input("", value=1.0)
+
+    st.markdown("🔐 **Marge maximale autorisée (% du capital)**")
+    safe_margin_percent = st.slider("", min_value=10, max_value=90, value=25, step=1)
     safe_margin_ratio = safe_margin_percent / 100
 
     submitted = st.form_submit_button("Calculer")
@@ -55,33 +70,31 @@ with st.form("form"):
         else:
             st.warning(f"⚠️ Tu peux ouvrir jusqu’à {max_lots:.2f} lots. Marge utilisée : {margin_ratio_used*100:.2f}% – zone à risque FTMO.")
 
-        st.markdown("### 🧠 Résultat combiné :")
-        st.write(f"📌 **Marge max autorisée** : `{max_margin_available:.2f} USD`")
-        st.write(f"🧮 **Valeur max de la position** : `{max_position_value:.2f} USD`")
-        st.write(f"📦 **Taille contrat** : `{contract_size}`")
-        st.write(f"⚙️ **Levier** : `1:{int(leverage)}`")
-        st.write(f"💸 **Marge réelle utilisée** : `{margin_required:.2f} USD` (**{margin_ratio_used*100:.2f}% du capital**)")
+        st.markdown("### 🧠 Résultat pour une utilisation FTMO :")
+        st.markdown(f"- **Marge max autorisée** : `{max_margin_available:.2f} USD`")
+        st.markdown(f"- **Valeur max de la position** : `{max_position_value:.2f} USD`")
+        st.markdown(f"- **Taille contrat** : `{contract_size}`")
+        st.markdown(f"- **Levier** : `1:{int(leverage)}`")
+        st.markdown(f"- **Marge réelle utilisée** : `{margin_required:.2f} USD` (**{margin_ratio_used*100:.2f}% du capital**)")
 
-        # Contrôle FTMO fixe 30%
         if is_ftmo_safe:
             st.info("🟢 Zone de sécurité FTMO : marge utilisée raisonnable.")
-            st.markdown("**🟢 Zone FTMO OK**")
+            st.markdown("🟢 **Zone FTMO OK**")
         else:
             st.error("⚠️ Zone de blocage FTMO probable : marge utilisée dépasse 30 % du capital.")
-            st.markdown("**🔴 Zone FTMO à risque**")
+            st.markdown("🔴 **Zone FTMO à risque**")
 
-        # Contrôle FTMO personnalisé (slider rouge)
         if margin_required > max_margin_available:
             st.error("🚫 Le lot calculé dépasse la marge que tu t’es toi-même fixée avec le slider rouge. Ajuste ton risque, ton SL ou fractionne le trade.")
         else:
             st.success("✅ Ce lot respecte la marge FTMO autorisée selon la limite que tu as fixée. Tu peux le trader sans blocage.")
 
-        # Calculette type Myfxbox
+        # Calculette style Myfxbox
         estimated_risk = lot_size_risk * sl_pips * pip_value
         risk_percent_real = (estimated_risk / capital) * 100
 
         st.markdown("### 📐 Taille de lot calculée selon ton risque :")
-        st.markdown(f"- 💰 Risque : `{risk_amount:.2f} USD`")
-        st.markdown(f"- 🎯 SL : `{sl_pips}` pips")
-        st.markdown(f"- 🧾 Valeur du pip : `{pip_value}` USD par lot")
+        st.markdown(f"- 💰 **Risque** : `{risk_amount:.2f} USD`")
+        st.markdown(f"- 🎯 **SL** : `{sl_pips}` pips")
+        st.markdown(f"- 🧾 **Valeur du pip** : `{pip_value}` USD par lot")
         st.markdown(f"- ➕ => **Taille de lot recommandée** : `{lot_size_risk:.2f} lots`")
