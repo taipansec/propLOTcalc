@@ -2,9 +2,9 @@
 import streamlit as st
 from PIL import Image
 
-st.set_page_config(page_title="m3X0Ru - Simulateur de Marge", page_icon="💠")
+st.set_page_config(page_title="m3X0Ru - Simulateur de Marge", page_icon="⚔️")
 
-st.title("💠 m3X0Ru - Simulateur de Marge Prop Firm")
+st.title("⚔️ m3X0Ru - Simulateur de Marge Prop Firm")
 st.markdown("**Calcule ta taille de lot maximale selon le risque et vérifie la marge FTMO.**")
 
 # Affichage du logo
@@ -56,7 +56,7 @@ with st.form("form"):
         risk_percent_real = (estimated_risk / capital) * 100
         st.markdown(f"📉 **Si tu trades `{max_lots_ftmo:.2f}` lots avec un SL de `{sl_pips:.0f}` pips, tu risques environ `{estimated_risk:.0f} USD` (**{risk_percent_real:.2f}% du capital**).")
 
-        if margin_ratio_used > safe_margin_ratio:
+        if margin_required > max_margin_available:
             st.error("🚫 Le lot calculé dépasse la marge FTMO autorisée. Ajuste ton risque, ton SL ou fractionne le trade.")
         else:
             st.success("✅ Ce lot respecte la marge FTMO autorisée. Tu peux le trader sans blocage.")
