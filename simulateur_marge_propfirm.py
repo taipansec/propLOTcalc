@@ -10,7 +10,7 @@ st.markdown("**Calcule ta taille de lot maximale selon le risque et vérifie la 
 logo = Image.open("logo.png")
 st.image(logo, width=120)
 
-# Valeurs du pip
+# Valeurs du pip selon les paires
 pip_values = {
     "XAUUSD": 10,
     "EURUSD": 10,
@@ -20,8 +20,7 @@ pip_values = {
 }
 
 with st.form("form"):
-    st.markdown("💱 **Choisis ta paire :**")
-    pair = st.selectbox("", options=list(pip_values.keys()))
+    pair = st.selectbox("💱 Choisis ta paire", options=list(pip_values.keys()))
 
     st.markdown("💰 **Capital total (USD)**")
     capital = st.number_input("", value=200000.0)
@@ -41,8 +40,7 @@ with st.form("form"):
     st.markdown("⚠️ **Risque % du capital**")
     risk_percent = st.number_input("", value=1.0)
 
-    st.markdown("🔐 **Marge maximale autorisée (% du capital)**")
-    safe_margin_percent = st.slider("", min_value=10, max_value=90, value=25, step=1)
+    safe_margin_percent = st.slider("🔐 Marge maximale autorisée (% du capital)", min_value=10, max_value=90, value=25, step=1)
     safe_margin_ratio = safe_margin_percent / 100
 
     submitted = st.form_submit_button("Calculer")
@@ -52,12 +50,12 @@ with st.form("form"):
         risk_amount = capital * (risk_percent / 100)
         lot_size_risk = risk_amount / (sl_pips * pip_value)
 
-        # Calcul marge
+        # Calcul de la marge
         position_value = lot_size_risk * price * contract_size
         margin_required = position_value / leverage
         margin_ratio_used = margin_required / capital
 
-        # Calcul max lots FTMO selon slider
+        # Calcul des lots FTMO selon la limite
         max_margin_available = capital * safe_margin_ratio
         max_position_value = max_margin_available * leverage
         max_lots = max_position_value / (price * contract_size)
@@ -84,12 +82,13 @@ with st.form("form"):
             st.error("⚠️ Zone de blocage FTMO probable : marge utilisée dépasse 30 % du capital.")
             st.markdown("🔴 **Zone FTMO à risque**")
 
+        # Contrôle selon la marge personnalisée (slider)
         if margin_required > max_margin_available:
             st.error("🚫 Le lot calculé dépasse la marge que tu t’es toi-même fixée avec le slider rouge. Ajuste ton risque, ton SL ou fractionne le trade.")
         else:
             st.success("✅ Ce lot respecte la marge FTMO autorisée selon la limite que tu as fixée. Tu peux le trader sans blocage.")
 
-        # Calculette style Myfxbox
+        # Bloc Myfxbox-like
         estimated_risk = lot_size_risk * sl_pips * pip_value
         risk_percent_real = (estimated_risk / capital) * 100
 
