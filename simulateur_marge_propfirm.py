@@ -25,7 +25,8 @@ with st.form("form"):
     price = st.number_input("Prix actuel de l’actif", value=3370.0)
     contract_size = st.number_input("Taille d’un contrat standard", value=100)
     leverage = st.number_input("Levier autorisé (ex: 30 pour 1:30)", value=30)
-    safe_margin_ratio = st.slider("% max de capital utilisé en marge", min_value=0.1, max_value=0.9, value=0.25, step=0.01)
+    safe_margin_percent = st.slider("🔐 Marge maximale autorisée (% du capital)", min_value=10, max_value=90, value=25, step=1)
+    safe_margin_ratio = safe_margin_percent / 100
     sl_pips = st.number_input("Stop-Loss (en pips)", value=250.0)
     risk_percent = st.number_input("Risque % du capital", value=1.0)
 
@@ -43,7 +44,9 @@ with st.form("form"):
         real_margin_used = real_position_value / leverage
         margin_ratio_used = real_margin_used / capital
 
-        if margin_ratio_used > 0.3:
+        is_ftmo_safe = margin_ratio_used <= 0.3
+
+        if is_ftmo_safe:
             st.warning(f"⚠️ Tu peux ouvrir jusqu’à {max_lots:.2f} lots, mais cela utilise {margin_ratio_used*100:.2f}% de ton capital en marge. FTMO peut bloquer au-delà de 30 %.")
         else:
             st.success(f"✅ Tu peux ouvrir jusqu’à {max_lots:.2f} lots. Marge utilisée : {margin_ratio_used*100:.2f} % – FTMO OK.")
@@ -54,7 +57,7 @@ with st.form("form"):
         st.markdown(f"- Levier : 1:{int(leverage)}")
         st.markdown(f"- Marge réelle utilisée : {real_margin_used:.2f} USD ({margin_ratio_used*100:.2f}% du capital)")
 
-        if margin_ratio_used > 0.3:
+        if is_ftmo_safe:
             st.error("⚠️ Zone de blocage FTMO probable : marge utilisée dépasse 30 % du capital.")
         else:
             st.info("🟢 Zone de sécurité FTMO : marge utilisée raisonnable.")
