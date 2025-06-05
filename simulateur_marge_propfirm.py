@@ -23,7 +23,7 @@ with st.form("form"):
     pair = st.selectbox("💱 Choisis ta paire", options=list(pip_values.keys()))
 
     st.markdown("💰 **Capital total (USD)**")
-    capital = st.number_input("", value=200000.0)
+    capital = st.number_input("💰 **Capital total (USD)**", value=200000.0)
 
     st.markdown("📈 **Prix actuel de l’actif**")
     price = st.number_input("", value=3370.0)
