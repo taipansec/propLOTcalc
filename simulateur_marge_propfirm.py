@@ -70,13 +70,18 @@ if submitted:
 
     # ✅ Bloc 2 : Calculette type Myfxbox
     risk_amount = capital * (risk_percent / 100)
-    nombre_positions = 4  # ou rendre ça modifiable par l'utilisateur via un slider
     lot_total = risk_amount / (sl_pips * pip_value)
-    lot_par_position = lot_total / nombre_positions
+    max_allowed_lots = max_lots  # FTMO
+    lot_total = min(lot_total, max_allowed_lots)  # Pour ne jamais dépasser FTMO
 
+    # Réduction dynamique du nombre de positions
+    min_lot_par_position = 0.5
+    possible_positions = max(1, int(lot_total / min_lot_par_position))
+    lot_par_position = lot_total / possible_positions
+    
     st.markdown("### 📐 Taille de lot calculée selon ton risque :")
     st.markdown(f"- 💰 Risque : `{risk_amount:.2f} USD`")
     st.markdown(f"- 🎯 SL : `{sl_pips}` pips")
     st.markdown(f"- 📄 Valeur du pip : `{pip_value}` USD par lot")
     st.markdown(f"➕ Taille de lot totale recommandée : `{lot_total:.2f} lots`")
-    st.markdown(f"➗ Répartie sur `{nombre_positions}` positions max : `{lot_par_position:.2f} lots` par position")
+    st.markdown(f"➗ Répartie sur `{possible_positions}` positions : `{lot_par_position:.2f} lots` par position")
