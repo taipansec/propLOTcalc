@@ -72,12 +72,16 @@ if submitted:
     risk_amount = capital * (risk_percent / 100)
     lot_total = risk_amount / (sl_pips * pip_value)
     max_allowed_lots = max_lots  # FTMO
-    lot_total = min(lot_total, max_allowed_lots)  # Pour ne jamais dépasser FTMO
 
-    # Réduction dynamique du nombre de positions
+    # Proposer un minimum de 0.5 lots par position (sauf si très petit capital)
     min_lot_par_position = 0.5
-    possible_positions = max(1, int(lot_total / min_lot_par_position))
-    lot_par_position = lot_total / possible_positions
+
+    if lot_total >= 2 * min_lot_par_position:
+        possible_positions = round(lot_total / min_lot_par_position)
+        lot_par_position = lot_total / possible_positions
+    else:
+        possible_positions = 1
+        lot_par_position = lot_total
     
     st.markdown("### 📐 Taille de lot calculée selon ton risque :")
     st.markdown(f"- 💰 Risque : `{risk_amount:.2f} USD`")
