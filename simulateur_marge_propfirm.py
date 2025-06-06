@@ -68,12 +68,16 @@ if submitted:
         st.error("⚠️ Zone de blocage FTMO probable : marge utilisée dépasse 30 % du capital.")
         st.markdown("**🔴 Zone FTMO à risque**")
 
-    # ✅ Bloc 2 : Calculette type Myfxbox
-    risk_amount = capital * (risk_percent / 100)
-    lot_total = risk_amount / (sl_pips * pip_value)
-    max_allowed_lots = max_lots  # FTMO
+    # ✅ Bloc 2 : Calculette type Myfxbox avec FTMO en tête
 
-    # Proposer un minimum de 0.5 lots par position (sauf si très petit capital)
+    # Calcul lot selon le risque
+    risk_amount = capital * (risk_percent / 100)
+    lot_by_risk = risk_amount / (sl_pips * pip_value)
+
+    # Limitation FTMO (calculée plus haut : max_lots)
+    lot_total = min(lot_by_risk, max_lots)
+
+    # Proposer un minimum de 0.5 lots par position
     min_lot_par_position = 0.5
 
     if lot_total >= 2 * min_lot_par_position:
@@ -82,10 +86,11 @@ if submitted:
     else:
         possible_positions = 1
         lot_par_position = lot_total
-    
+
+    # ✅ Affichage clair
     st.markdown("### 📐 Taille de lot calculée selon ton risque :")
     st.markdown(f"- 💰 Risque : `{risk_amount:.2f} USD`")
     st.markdown(f"- 🎯 SL : `{sl_pips}` pips")
     st.markdown(f"- 📄 Valeur du pip : `{pip_value}` USD par lot")
-    st.markdown(f"➕ Taille de lot totale recommandée : `{lot_total:.2f} lots`")
+    st.markdown(f"➕ Taille de lot totale recommandée (risque & FTMO) : `{lot_total:.2f} lots`")
     st.markdown(f"➗ Répartie sur `{possible_positions}` positions : `{lot_par_position:.2f} lots` par position")
