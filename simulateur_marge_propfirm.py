@@ -70,27 +70,18 @@ if submitted:
 
     # ✅ Bloc 2 : Calculette type Myfxbox avec FTMO en tête
 
-    # Calcul lot selon le risque
+    max_trades = 4
+    lot_par_position = max_lots / max_trades
+
+    st.markdown("### 📐 Taille de lot calculée pour utiliser toute la marge autorisée :")
+    st.markdown(f"- 🎯 SL actuel : `{sl_pips}` pips")
+    st.markdown(f"- 📏 FTMO t'autorise : `{max_lots:.2f} lots` au total")
+    st.markdown(f"- ➗ Réparti sur `{max_trades}` positions : `{lot_par_position:.2f} lots` par position")
+
+    # 🔍 Info bonus : si tu veux quand même connaître le lot par risque à l’ancienne
     risk_amount = capital * (risk_percent / 100)
     lot_by_risk = risk_amount / (sl_pips * pip_value)
-
-    # Limitation FTMO (calculée plus haut : max_lots)
-    lot_total = min(lot_by_risk, max_lots)
-
-    # Proposer un minimum de 0.5 lots par position
-    min_lot_par_position = 0.5
-
-    if lot_total >= 2 * min_lot_par_position:
-        possible_positions = round(lot_total / min_lot_par_position)
-        lot_par_position = lot_total / possible_positions
-    else:
-        possible_positions = 1
-        lot_par_position = lot_total
-
-    # ✅ Affichage clair
-    st.markdown("### 📐 Taille de lot calculée selon ton risque :")
-    st.markdown(f"- 💰 Risque : `{risk_amount:.2f} USD`")
-    st.markdown(f"- 🎯 SL : `{sl_pips}` pips")
-    st.markdown(f"- 📄 Valeur du pip : `{pip_value}` USD par lot")
-    st.markdown(f"➕ Taille de lot totale recommandée (risque & FTMO) : `{lot_total:.2f} lots`")
-    st.markdown(f"➗ Répartie sur `{possible_positions}` positions : `{lot_par_position:.2f} lots` par position")
+    st.markdown("---")
+    st.markdown("### 📊 Pour info : taille de lot avec risque contrôlé")
+    st.markdown(f"- 💰 Risque défini : `{risk_amount:.2f} USD`")
+    st.markdown(f"- 🔢 Taille de lot selon risque : `{lot_by_risk:.2f} lots`")
